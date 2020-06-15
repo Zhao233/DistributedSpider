@@ -1,0 +1,37 @@
+server:
+  servlet:
+    context-path: /test
+
+  port: 8881
+
+spring:
+  servlet:
+    multipart:
+      max-request-size: 50MB
+      max-file-size: 50MB
+
+  datasource:
+      # local server configuration(Mysql)
+  #    url: jdbc:mysql://cdb-fqh1b3fq.bj.tencentcdb.com:10104/RSS?characterEncoding: utf8&useSSL: false&serverTimezone: GMT%2B8
+  #    username: root
+  #    password: "root_RSS"
+  #    driver-class-name: com.mysql.cj.jdbc.Driver
+
+      url: jdbc:mysql://cdb-l88qsowa.bj.tencentcdb.com:10092/record?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+      username: root
+      password: "zhao1234bistu"
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+      hikari:
+        maximum-pool-size: 20
+        minimum-idle: 5
+        connection-timeout: 86400
+
+      jpa:
+        database: mysql
+        show-sql: true
+      hibernate:
+        ddl-auto: update
+        naming-strategy: org.hibernate.configuration.ImprovedNamingStrategy
+
+      database-platform: org.hibernate.dialect.MySQL5Dialect

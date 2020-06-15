@@ -1,0 +1,60 @@
+zk:
+  url: 39.105.129.62:2181
+  lockPath: /spider/lock
+  pagePath: /spider/page_content
+  timeout: 10000
+
+baidu:
+  auth_url: https://aip.baidubce.com/oauth/2.0/token
+  analyse_url: https://aip.baidubce.com/rpc/2.0/nlp/v1/sentiment_classify
+  grant_type: client_credentials
+  client_id: s1NZlr3DOhXR720TyVFQk3u7
+  client_secret: rpfE2ZjtrfxLAt2UmCGidse3cKTsVo9Z
+
+spring:
+  kafka:
+    bootstrap-servers: 39.105.129.62:9092
+
+    producer:
+      retries: 5
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        linger.ms: 1
+
+    consumer:
+      enable-auto-commit: false
+      auto-commit-interval: 100ms
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        session.timeout.ms: 15000
+
+  datasource:
+          # local server configuration(Mysql)
+      #    url: jdbc:mysql://cdb-fqh1b3fq.bj.tencentcdb.com:10104/RSS?characterEncoding: utf8&useSSL: false&serverTimezone: GMT%2B8
+      #    username: root
+      #    password: "root_RSS"
+      #    driver-class-name: com.mysql.cj.jdbc.Driver
+
+          url: jdbc:mysql://cdb-l88qsowa.bj.tencentcdb.com:10092/record?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+          username: root
+          password: "zhao1234bistu"
+          driver-class-name: com.mysql.cj.jdbc.Driver
+
+          hikari:
+            maximum-pool-size: 20
+            minimum-idle: 5
+            connection-timeout: 86400
+
+          jpa:
+            database: mysql
+            show-sql: true
+          hibernate:
+            ddl-auto: update
+            show-sql: true
+            naming-strategy: org.hibernate.configuration.ImprovedNamingStrategy
+
+          database-platform: org.hibernate.dialect.MySQL5Dialect

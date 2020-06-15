@@ -1,0 +1,6 @@
+# ignore all config file 
+application.yml
+
+# ignore all lib file 
+.idea/*
+
