@@ -14,10 +14,8 @@ public class SearchService {
     @Autowired
     WeiBoDao weiBoDao;
 
-    public HashMap<Object, Object> getFirstGraphData(){
-        boolean isCached = false;
-
-        if(CACHE.res_line_chart_1 != null){
+    public HashMap<Object, Object> getFirstGraphData(boolean isUpdate){
+        if(CACHE.res_line_chart_1 != null  && isUpdate == false){
             return CACHE.res_line_chart_1;
         }
 
@@ -95,8 +93,8 @@ public class SearchService {
         return res;
     }
 
-    public HashMap<Object, Object> getSecondGraphData(){
-        if(CACHE.res_line_chart_2 != null){
+    public HashMap<Object, Object> getSecondGraphData(boolean isUpdate){
+        if(CACHE.res_line_chart_2 != null && isUpdate == false){
             return CACHE.res_line_chart_2;
         }
 
@@ -161,8 +159,8 @@ public class SearchService {
         return res;
     }
 
-    public HashMap<Object, Object> getThirdGraphData(){
-        if(CACHE.res_line_chart_3 != null){
+    public HashMap<Object, Object> getThirdGraphData(boolean isUpdate){
+        if(CACHE.res_line_chart_3 != null && isUpdate == false){
             return CACHE.res_line_chart_3;
         }
 
