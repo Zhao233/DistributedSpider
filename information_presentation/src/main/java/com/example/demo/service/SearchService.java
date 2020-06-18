@@ -66,11 +66,11 @@ public class SearchService {
             System.out.println("start time :" + calendar_start.getTime() + "   end time : " + calendar_end.getTime() );
 
 
-            Integer good_score = weiBoDao.getGoodAverageScoreByTIme(start_w_time, end_w_time);
+            Integer good_score = weiBoDao.getGoodSumNumByTime(start_w_time, end_w_time);
             good_score = good_score == null? 0 : good_score;
-            Integer middle_score = weiBoDao.getMiddleAverageScoreByTIme(start_w_time, end_w_time);
+            Integer middle_score = weiBoDao.getMiddleSumNumByTime(start_w_time, end_w_time);
             middle_score = middle_score == null? 0 : middle_score;
-            Integer bad_score = weiBoDao.getBadAverageScoreByTIme(start_w_time, end_w_time);
+            Integer bad_score = weiBoDao.getBadSumNumByTime(start_w_time, end_w_time);
             bad_score = bad_score == null? 0 : bad_score;
 
             good.add(good_score);

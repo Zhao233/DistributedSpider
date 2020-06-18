@@ -19,7 +19,7 @@ public class ShowDataController {
     public Map getData1(){
         HashMap<Object,Object> map = new HashMap();
 
-        map.put("data", searchServices.getFirstGraphData());
+        map.put("data", searchServices.getFirstGraphData(false));
         map.put("res", "success");
 
         return map;
@@ -30,7 +30,7 @@ public class ShowDataController {
     public Map getData2(){
         HashMap<Object,Object> map = new HashMap();
 
-        map.put("data", searchServices.getSecondGraphData());
+        map.put("data", searchServices.getSecondGraphData(false));
         map.put("res", "success");
 
         return map;
@@ -40,7 +40,7 @@ public class ShowDataController {
     @ResponseBody
     public Map getData3(){
         HashMap<Object,Object> map = new HashMap();
-        map.put("data", searchServices.getThirdGraphData());
+        map.put("data", searchServices.getThirdGraphData(false));
         map.put("res", "success");
 
         return map;

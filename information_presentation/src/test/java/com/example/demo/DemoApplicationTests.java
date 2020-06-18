@@ -528,6 +528,6 @@ class DemoApplicationTests {
 //
 //        System.out.println(weiBoDao.getGoodAverageScoreByTIme(start.getTimeInMillis(),end.getTimeInMillis()));
 
-        searchService.getFirstGraphData();
+        searchService.getFirstGraphData(false);
     }
 }
