@@ -15,5 +15,6 @@ public class UpdateCache {
         searchService.getFirstGraphData(true);
         searchService.getSecondGraphData(true);
         searchService.getThirdGraphData(true);
+        searchService.getScoreData(true);
     }
 }

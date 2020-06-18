@@ -68,8 +68,10 @@ public class SearchService {
 
             Integer good_score = weiBoDao.getGoodSumNumByTime(start_w_time, end_w_time);
             good_score = good_score == null? 0 : good_score;
+
             Integer middle_score = weiBoDao.getMiddleSumNumByTime(start_w_time, end_w_time);
             middle_score = middle_score == null? 0 : middle_score;
+
             Integer bad_score = weiBoDao.getBadSumNumByTime(start_w_time, end_w_time);
             bad_score = bad_score == null? 0 : bad_score;
 
@@ -179,9 +181,94 @@ public class SearchService {
         return res;
     }
 
+    public HashMap<Object, Object> getScoreData(boolean isUpdate){
+        if(CACHE.res_line_chart_score != null  && isUpdate == false){
+            return CACHE.res_line_chart_score;
+        }
+
+        HashMap<Object, Object> res = new HashMap<>();
+
+        LinkedList<Long> good = new LinkedList<>();
+        LinkedList<Long> middle = new LinkedList<>();
+        LinkedList<Long> bad = new LinkedList<>();
+        LinkedList<Long> time = new LinkedList<>();
+
+        long min_w_time =  weiBoDao.getMinWTimestamp();
+        long max_w_time =  weiBoDao.getMaxWTimestamp();
+
+        Calendar start = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+        start.setTime(new Date(min_w_time));
+        end.setTime(new Date(max_w_time));
+
+        Calendar calendar_start = Calendar.getInstance();
+        Calendar calendar_end = Calendar.getInstance();
+
+        int date_average = (end.get(Calendar.DAY_OF_YEAR) - start.get(Calendar.DAY_OF_YEAR))/20;
+
+        //依次设置开始时间和结束时间
+        for(int i = 0; ;i++){
+            boolean isEnd = false;
+
+            if(i == 0){
+                calendar_start.setTime(new Date(min_w_time));
+                calendar_end.setTime(new Date(min_w_time));
+            } else {
+                calendar_start.setTime( calendar_end.getTime() );
+            }
+
+            calendar_end.set(Calendar.DAY_OF_MONTH, calendar_start.get(Calendar.DAY_OF_MONTH)+date_average);
+
+            if(calendar_end.getTimeInMillis() > max_w_time){
+                calendar_end.setTime(new Date(max_w_time));
+
+                isEnd = true;
+            }
+
+            System.out.println("start: " + calendar_start + "end: "+calendar_end);
+
+            //查询所需要的开始时间和结束时间
+            long start_w_time = calendar_start.getTimeInMillis();
+            long end_w_time = calendar_end.getTimeInMillis();
+
+            System.out.println("start time :" + calendar_start.getTime() + "   end time : " + calendar_end.getTime() );
+
+
+            Long good_score = weiBoDao.getGoodAverageScoreByTime(start_w_time, end_w_time);
+            good_score = good_score == null? 0 : good_score;
+
+            Long middle_score = weiBoDao.getMiddleAverageScoreByTime(start_w_time, end_w_time);
+            middle_score = middle_score == null? 0 : middle_score;
+
+            Long bad_score = weiBoDao.getBadAverageScoreByTime(start_w_time, end_w_time);
+            bad_score = bad_score == null? 0 : bad_score;
+
+            good.add(good_score);
+            middle.add(middle_score);
+            bad.add(bad_score);
+            time.add(calendar_start.getTimeInMillis());
+
+            if(isEnd){
+                break;
+            }
+        }
+
+        res.put("time", time);
+        res.put("good", good);
+        res.put("middle", middle);
+        res.put("bad", bad);
+
+        CACHE.res_line_chart_score = res;
+
+        return res;
+    }
+
+
     static class CACHE{
         public static HashMap<Object,Object> res_line_chart_1;
         public static HashMap<Object,Object> res_line_chart_2;
         public static HashMap<Object,Object> res_line_chart_3;
+
+        public static HashMap<Object,Object> res_line_chart_score;
     }
 }

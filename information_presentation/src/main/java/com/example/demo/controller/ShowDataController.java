@@ -46,4 +46,14 @@ public class ShowDataController {
         return map;
     }
 
+    @RequestMapping("/getScore")
+    @ResponseBody
+    public Map getScoreByTime(){
+        HashMap<Object,Object> map = new HashMap();
+        map.put("data", searchServices.getScoreData(false));
+        map.put("res", "success");
+
+        return map;
+    }
+
 }

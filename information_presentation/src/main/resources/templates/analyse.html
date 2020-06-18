@@ -59,6 +59,7 @@
             <div class="introduction">小组成员：赵旭，徐华磊，张彤，郭宝霞</div>
         </div>
         <div class="panel-body">
+
             <div class="panel panel-default">
                 <div class="panel-body card_contrainer">
                     <div class="container">
@@ -66,7 +67,7 @@
                             <div class="chart-wrapper canvas_container">
                                 <canvas id="line-chart-1" height="100"></canvas>
         
-                                <h4 class="introduction">褒贬义随时间变化情况</h4>
+                                <h4 class="introduction">褒贬义关注度随时间变化情况</h4>
                             </div>
                         </div>
                     </div>
@@ -79,9 +80,51 @@
                     <div class="container">
                         <div class="canvas-wrapper form-group" style=" margin:0px;">
                             <div class="chart-wrapper canvas_container">
+                                <canvas id="line-chart-good-score" height="100"></canvas>
+
+                                <h4 class="introduction">褒义评分随时间变化情况（输值越高代表评价越高，反之亦然）</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body card_contrainer">
+                    <div class="container">
+                        <div class="canvas-wrapper form-group" style=" margin:0px;">
+                            <div class="chart-wrapper canvas_container">
+                                <canvas id="line-chart-middle-score" height="100"></canvas>
+
+                                <h4 class="introduction">中性评分随时间变化情况（输值越高代表评价越高，反之亦然）</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body card_contrainer">
+                    <div class="container">
+                        <div class="canvas-wrapper form-group" style=" margin:0px;">
+                            <div class="chart-wrapper canvas_container">
+                                <canvas id="line-chart-bad-score" height="100"></canvas>
+
+                                <h4 class="introduction">贬义评分随时间变化情况（输值越高代表评价越高，反之亦然）</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body card_contrainer">
+                    <div class="container">
+                        <div class="canvas-wrapper form-group" style=" margin:0px;">
+                            <div class="chart-wrapper canvas_container">
                                 <canvas id="line-chart-2" height="100"></canvas>
         
-                                <h4 class="introduction">关注度随时间变化情况</h4>
+                                <h4 class="introduction">对群体免疫问题关注度随时间变化情况</h4>
                             </div>
                         </div>
                     </div>
@@ -269,9 +312,101 @@
         ]
     };
 
+    var data_line_chart_good_score = {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [
+            {
+                label: "褒义评分情况",
+
+                fill: true,
+                lineTension:1,
+                lineTension: 0.1,
+                backgroundColor: "rgba(	54,162,235 ,0.4)",
+                borderColor: "rgba(	54,162,235 ,1)",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                pointBorderColor: "rgba(75,192,192,1)",
+                pointBackgroundColor: "#fff",
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                pointHoverBorderWidth: 2,
+                pointRadius: 3,
+                pointHitRadius: 10,
+
+
+                data: [65, 59, 80, 81, 56, 55, 40]
+            },
+        ]
+    };
+    var data_line_chart_middle_score = {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [
+            {
+                label: "中性评分情况",
+
+                fill: true,
+                lineTension:1,
+                lineTension: 0.1,
+                backgroundColor: "rgba(	54,162,235 ,0.4)",
+                borderColor: "rgba(	54,162,235 ,1)",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                pointBorderColor: "rgba(75,192,192,1)",
+                pointBackgroundColor: "#fff",
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                pointHoverBorderWidth: 2,
+                pointRadius: 3,
+                pointHitRadius: 10,
+
+
+                data: [65, 59, 80, 81, 56, 55, 40]
+            },
+        ]
+    };
+    var data_line_chart_bad_score = {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [
+            {
+                label: "贬义评分情况",
+
+                fill: true,
+                lineTension:1,
+                lineTension: 0.1,
+                backgroundColor: "rgba(	54,162,235 ,0.4)",
+                borderColor: "rgba(	54,162,235 ,1)",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                pointBorderColor: "rgba(75,192,192,1)",
+                pointBackgroundColor: "#fff",
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                pointHoverBorderWidth: 2,
+                pointRadius: 3,
+                pointHitRadius: 10,
+
+
+                data: [65, 59, 80, 81, 56, 55, 40]
+            },
+        ]
+    };
+
     var time_lable;
 
     $(document).ready(function(){
+        //获取褒贬意关注度
         $.ajax({
             url: "/test/getData1",
             type: "GET",
@@ -304,6 +439,7 @@
             }
         })
 
+        //获取关注度
         $.ajax({
             url: "/test/getData2",
             type: "GET",
@@ -330,6 +466,7 @@
             }
         })
 
+        //获取褒贬意总数
         $.ajax({
             url: "/test/getData3",
             type: "GET",
@@ -359,153 +496,42 @@
                 $('#myModal').modal('show')
             }
         })
+
+        //获取三种评分数据
+        $.ajax({
+            url: "/test/getScore",
+            type: "GET",
+            processData: false,
+            timeout: 7000,
+            async: false,
+            contentType: false,
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+            success: function (obj) {
+                if(obj.res == "success") {
+                    var data = new Array()
+                    data_line_chart_good_score.datasets[0].data = obj.data.good
+                    data_line_chart_good_score.labels = time_lable
+
+                    data_line_chart_middle_score.datasets[0].data = obj.data.middle
+                    data_line_chart_middle_score.labels = time_lable
+
+                    data_line_chart_bad_score.datasets[0].data = obj.data.bad
+                    data_line_chart_bad_score.labels = time_lable
+
+                    init_line_chart_good_score()
+                    init_line_chart_middle_score()
+                    init_line_chart_bad_score()
+                }
+            },
+            error: function (obj) {
+                $(".modal-body").text('上传失败');
+                $('#myModal').modal('show')
+            }
+        })
     });
-
-
-
-    // var data_pine_chart = {
-    //     labels: [
-    //         "褒义",
-    //         "中性",
-    //         "贬义"
-    //     ],
-    //
-    //     datasets: [
-    //     {
-    //         data: [300, 50, 100],
-    //         backgroundColor: [
-    //             "#FF6384",
-    //             "#36A2EB",
-    //             "#FFCE56"
-    //         ],
-    //         hoverBackgroundColor: [
-    //             "#FF6384",
-    //             "#36A2EB",
-    //             "#FFCE56"
-    //         ]
-    //     }]
-    // };
-    //
-    // var data_line_chart_1 = {
-    //     labels: ["一月", "February", "March", "April", "May", "June", "July"],
-    //     datasets: [
-    //         {
-    //             label: "褒 义",
-    //
-    //             fill: true,
-    //
-    //             lineTension: 0.1,
-    //
-    //             backgroundColor: "rgba(143,188,143,0.2)",
-    //
-    //             borderColor: "rgba(143,188,143,1)",
-    //             borderCapStyle: 'butt',
-    //             borderDash: [],
-    //             borderDashOffset: 0.0,
-    //             borderJoinStyle: 'miter',
-    //
-    //             pointBorderColor: "rgba(75,192,192,1)",
-    //             pointBackgroundColor: "#fff",
-    //             pointBorderWidth: 1,
-    //             pointHoverRadius: 5,
-    //             pointHoverBackgroundColor: "rgba(75,192,192,1)",
-    //             pointHoverBorderColor: "rgba(220,220,220,1)",
-    //             pointHoverBorderWidth: 2,
-    //             pointRadius: 3,
-    //             pointHitRadius: 10,
-    //
-    //             data: [65, 59, 80, 81, 56, 55, 40],
-    //             spanGaps: false,
-    //         },
-    //
-    //         {
-    //             label: "中 性",
-    //             fill: true,
-    //             lineTension:1,
-    //             lineTension: 0.1,
-    //
-    //             backgroundColor: "rgba(	54,162,235 ,0.4)",
-    //
-    //             borderColor: "rgba(	54,162,235,1)",
-    //             borderCapStyle: 'butt',
-    //             borderDash: [],
-    //             borderDashOffset: 0.0,
-    //             borderJoinStyle: 'miter',
-    //
-    //             pointBorderColor: "rgba(75,192,192,1)",
-    //             pointBackgroundColor: "#fff",
-    //             pointBorderWidth: 1,
-    //             pointHoverRadius: 5,
-    //             pointHoverBackgroundColor: "rgba(75,192,192,1)",
-    //             pointHoverBorderColor: "rgba(220,220,220,1)",
-    //             pointHoverBorderWidth: 2,
-    //             pointRadius: 3,
-    //             pointHitRadius: 10,
-    //
-    //             data: [35, 22, 63, 64, 21, 55, 54],
-    //             spanGaps: false,
-    //
-    //         },
-    //
-    //         {
-    //             label: "贬 义",
-    //
-    //             fill: true,
-    //             lineTension:1,
-    //             lineTension: 0.1,
-    //             backgroundColor: "rgba(255,99,132,0.4)",
-    //             borderColor: "rgba(255,99,132,1)",
-    //             borderCapStyle: 'butt',
-    //             borderDash: [],
-    //             borderDashOffset: 0.0,
-    //             borderJoinStyle: 'miter',
-    //             pointBorderColor: "rgba(75,192,192,1)",
-    //             pointBackgroundColor: "#fff",
-    //             pointBorderWidth: 1,
-    //             pointHoverRadius: 5,
-    //             pointHoverBackgroundColor: "rgba(75,192,192,1)",
-    //             pointHoverBorderColor: "rgba(220,220,220,1)",
-    //             pointHoverBorderWidth: 2,
-    //             pointRadius: 3,
-    //             pointHitRadius: 10,
-    //
-    //
-    //             data: [28, 48, 40, 19, 86, 27, 90]
-    //         }
-    //     ]
-    // };
-    //
-    // var data_line_chart_2 = {
-    //     labels: ["January", "February", "March", "April", "May", "June", "July"],
-    //     datasets: [
-    //         {
-    //             label: "关注度",
-    //
-    //             fill: true,
-    //             lineTension:1,
-    //             lineTension: 0.1,
-    //             backgroundColor: "rgba(	54,162,235 ,0.4)",
-    //             borderColor: "rgba(	54,162,235 ,1)",
-    //             borderCapStyle: 'butt',
-    //             borderDash: [],
-    //             borderDashOffset: 0.0,
-    //             borderJoinStyle: 'miter',
-    //             pointBorderColor: "rgba(75,192,192,1)",
-    //             pointBackgroundColor: "#fff",
-    //             pointBorderWidth: 1,
-    //             pointHoverRadius: 5,
-    //             pointHoverBackgroundColor: "rgba(75,192,192,1)",
-    //             pointHoverBorderColor: "rgba(220,220,220,1)",
-    //             pointHoverBorderWidth: 2,
-    //             pointRadius: 3,
-    //             pointHitRadius: 10,
-    //
-    //
-    //             data: [65, 59, 80, 81, 56, 55, 40]
-    //         },
-    //     ]
-    // };
-     
 
     var options = {
 
@@ -555,13 +581,6 @@
             legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
             };
 
-
-    //init_line_chart_2();
-
-    //init_line_pie_chart();
-
-
-
     function getTime(data){
         var time_format = new Array()
 
@@ -573,6 +592,36 @@
             time_format.push(month+"-"+day);
         }
         return time_format
+    }
+
+    function init_line_chart_good_score(){
+        var ctx = document.getElementById("line-chart-good-score").getContext("2d");
+
+        var myLineChart = new Chart(ctx, {
+            type: 'line',
+            data: data_line_chart_good_score,
+            options: options
+        });
+    }
+
+    function init_line_chart_middle_score(){
+        var ctx = document.getElementById("line-chart-middle-score").getContext("2d");
+
+        var myLineChart = new Chart(ctx, {
+            type: 'line',
+            data: data_line_chart_middle_score,
+            options: options
+        });
+    }
+
+    function init_line_chart_bad_score(){
+        var ctx = document.getElementById("line-chart-bad-score").getContext("2d");
+
+        var myLineChart = new Chart(ctx, {
+            type: 'line',
+            data: data_line_chart_bad_score,
+            options: options
+        });
     }
 
     function init_line_chart_1(){
@@ -605,104 +654,6 @@
         });
     }
 
-
-    // Get the context of the canvas element we want to select
-    
-
-    // $("#upload").click(function(){
-    //     console.log('click');
-
-    //     upload()
-    // });
-
-    // $("#process").click(function () {
-    //     console.log('click')
-
-    //     process()
-    // });
-
-    // function upload() {
-    //     console.log("dddddd");
-
-
-    //     var formData = new FormData();
-
-    //     var fs = $("#file")[0].files;
-    //     var max_size = 1024 * 1024 * 100
-
-    //     if(fs[0] == undefined){
-    //         $(".modal-body").text("请选择文件！");
-    //         $('#myModal').modal('show')
-    //         return
-    //     }
-
-    //     for (var i = 0; i < fs.length; i++) {
-    //         var d = fs[0]
-    //         if(d.size <= max_size){  //文件必须小于100M
-    //             if(/.(DOC|doc|DOCX|docx)$/.test(d.name)){ //文件必须为文档
-    //                 formData.append("file", fs[i]);  //文件上传处理
-    //             }else{
-
-    //                 $(".modal-body").text('上传文件必须是DOC! ');
-    //                 $('#myModal').modal('show')
-    //                 return false
-    //             }
-
-    //         }else{
-    //             $(".modal-body").text('上传文件过大! ');
-    //             $('#myModal').modal('show')
-    //             return false
-    //         }
-    //     }
-
-    //     $.ajax({
-    //         url: "receiveFile",
-    //         type: "POST",
-    //         data: formData,
-    //         processData: false,
-    //         contentType: false,
-    //         xhrFields: {
-    //             withCredentials: true
-    //         },
-    //         crossDomain: true,
-    //         success: function (obj) {
-    //             if(obj.res == "success") {
-    //                 $(".modal-body").text('上传成功');
-    //                 $('#myModal').modal('show')
-    //             }
-    //         },
-    //         error: function (obj) {
-    //             $(".modal-body").text('上传失败');
-    //             $('#myModal').modal('show')
-    //         }
-    //     })
-    // }
-
-    // function process(){
-    //     $.ajax({
-    //         url: "processFile",
-    //         type: "POST",
-
-    //         processData: false,
-    //         contentType: false,
-    //         xhrFields: {
-    //             withCredentials: true
-    //         },
-    //         crossDomain: true,
-    //         success: function (obj) {
-    //             if(obj.res == "success") {
-    //                 alert("开始处理");
-    //             }
-
-    //             if(obj.res == "processing"){
-    //                 alert("请等待当前处理完成")
-    //             }
-    //         },
-    //         error: function (obj) {
-    //             alert("处理失败");
-    //         }
-    //     })
-    // }
 </script>
 </body>
 </html>
