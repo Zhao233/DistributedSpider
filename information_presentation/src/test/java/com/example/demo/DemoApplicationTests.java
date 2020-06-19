@@ -23,7 +23,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
@@ -407,15 +406,7 @@ class DemoApplicationTests {
 
 
 
-    @Test
     void contextLoads() {
-        try {
-            spiderForComment("4508826525826464");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     void start() throws IOException, InterruptedException {
@@ -514,7 +505,7 @@ class DemoApplicationTests {
     SearchService searchService;
     @Autowired
     WeiBoDao weiBoDao;
-    @Test
+
     void getContentAndComment() throws IOException, InterruptedException {
 //        Calendar start = Calendar.getInstance();
 //        Calendar end = Calendar.getInstance();
@@ -528,6 +519,6 @@ class DemoApplicationTests {
 //
 //        System.out.println(weiBoDao.getGoodAverageScoreByTIme(start.getTimeInMillis(),end.getTimeInMillis()));
 
-        searchService.getFirstGraphData(false);
+        //searchService.getFirstGraphData(false);
     }
 }

@@ -26,10 +26,10 @@ public class Spider {
     @Autowired
     ThreadPoolExecutor threadPool;
 
-    public static LinkedBlockingQueue<Long> weibo_id_queue = new LinkedBlockingQueue<>();
+    public static LinkedBlockingQueue<Long> weibo_id_queue = new LinkedBlockingQueue<>();//weibo正文id队列
 
     @Autowired
-    LinkedBlockingQueue<Weibo> queue;
+    LinkedBlockingQueue<Weibo> queue;//Weibo队列
 
     @Autowired
     private WeiboDao weiboDao;
@@ -46,7 +46,6 @@ public class Spider {
     String commnet_search_url = "https://m.weibo.cn/api/comments/show";
 
     List<String> content_ids = new LinkedList();
-    int page_content_ids = 0;
 
     String cookie = "_T_WM=57729684766; WEIBOCN_FROM=1110006030; XSRF-TOKEN=d3ccdb; MLOGIN=1; SSOLoginState=1591904257; ALF=1594496257; SCF=ArsRkvs-oW_Gx9WsvBDPnSDs0CTIdKc70XBBSJnlg2I_J12Ga-18oAUScg5mrXKkBv1FJJuxyEH7qePpumzqC7k.; SUB=_2A25z5vhRDeRhGeNG7FoS8yfLwz6IHXVRKJgZrDV6PUNbktANLXXZkW1NSxcGz22t1giY7H9sCvH12rDpQQOUCEkK; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WWH8sZgENHoUiMErIEu-kal5JpX5KzhUgL.Fo-RS0n0e0.N1hz2dJLoI7UDdPDReKnc; SUHB=0vJ4HA3-rIwF3h";
 
@@ -127,7 +126,7 @@ public class Spider {
                 continue;
             }
 
-            String content_id = String.valueOf(weibo_id_queue.poll());
+            String content_id = String.valueOf(weibo_id_queue.poll());//获取微博正文id
 
             int score_content = weiboDao.getContentScoreByWID(content_id);
 
@@ -155,7 +154,7 @@ public class Spider {
                         .header("upgrade-insecure-requests","1")
                         .header("user-agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36")
                         .cookie("cookie", cookie)
-                        .get();
+                        .get();//获取的内容是json
 
                 String res = doc_temp.body().text();
 
@@ -198,7 +197,7 @@ public class Spider {
 
                     String id = object1.getString("id");
 
-                    if(object1.size() != 7){
+                    if(object1.size() != 7){//高于一级评论的
                         continue;
                     }
 
@@ -233,7 +232,7 @@ public class Spider {
         public void run() {
             String content = weiBo.getW_content();
             content = content.replaceAll("#|【|】","");
-            content = content.replaceAll("</[a-zA-Z][^>]*>", "");
+            content = content.replaceAll("</[a-zA-Z][^>]*>", "");//去除标签
             //content = content.replace(" ","");
 
             if(content.equals("")){
@@ -250,7 +249,8 @@ public class Spider {
                 e.printStackTrace();
             }
 
-            if(score > 90){
+            //评论的打分
+            if(score > 90){//对评论的再评分，根据正文，来进行评分
                 if(!content.contains("群体免疫") || content.contains("群免")){
                     score = 50;
                 } else {

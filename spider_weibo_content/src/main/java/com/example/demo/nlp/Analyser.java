@@ -46,16 +46,15 @@ public class Analyser {
 
         HttpEntity<String> requestEntity = new HttpEntity<String>(object.toString(), headers);
 
+        //加锁，百度api每秒只能查两次
         lock.lock();
-
         System.out.println(Thread.currentThread().getName() + "获得锁");
 
-        Thread.sleep(600);
+        Thread.sleep(600);//sleep 半秒
 
         String s = restTemplate.postForEntity(request_url, requestEntity, String.class).getBody();
-
         System.out.println(Thread.currentThread().getName() + "释放锁");
-        lock.unlock();
+        lock.unlock();//释放锁
 
         JSONObject res1 = JSONObject.fromObject(s);
 
@@ -73,7 +72,7 @@ public class Analyser {
         }
 
         int sentiment = res2.getInt("sentiment");
-        int score = res2.getInt("positive_prob")*100;
+        int score = res2.getInt("positive_prob")*100;//获取评分
 
 //        switch (sentiment){
 //            case POSITIVE :

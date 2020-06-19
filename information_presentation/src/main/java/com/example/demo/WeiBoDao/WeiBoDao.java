@@ -16,7 +16,7 @@ public interface WeiBoDao extends JpaRepository<WeiBo, Long> {
     @Query(nativeQuery = true, value = "select w_timestamp from wei_bo_record order by w_timestamp asc limit 1")
     long getMinWTimestamp();
 
-    /** ==================================  =================================== */
+    /** ================================== 褒贬义关注度 =================================== */
 
     @Query(nativeQuery = true, value =  "select sum(score) from (" +
                                             "select count(score) as score " +
@@ -48,7 +48,7 @@ public interface WeiBoDao extends JpaRepository<WeiBo, Long> {
                                         ")u ")
     Integer getMiddleSumNumByTime(long start, long end);
 
-    /** ==================================  =================================== */
+    /** ================================== 褒贬义评分 =================================== */
 
     @Query(nativeQuery = true, value =  "select avg(score) from (" +
                                             "select avg(score) as score " +
@@ -82,7 +82,7 @@ public interface WeiBoDao extends JpaRepository<WeiBo, Long> {
                                         ")u" )
     Long getMiddleAverageScoreByTime(long start, long end);
 
-    /** ==================================  =================================== */
+    /** ================================== 对群体免疫问题的关注度 =================================== */
 
     @Query(nativeQuery = true, value=   "select sum(time) " +
                                         "from (" +
@@ -94,7 +94,7 @@ public interface WeiBoDao extends JpaRepository<WeiBo, Long> {
                                         ")u")
     Integer getAttentionByDate(long start, long end);
 
-    /** ==================================  =================================== */
+    /** ================================== 褒贬义 数量 =================================== */
 
     @Query(nativeQuery = true, value="select count(id) from wei_bo_record where score > 80")
     Integer getGoodNumber();

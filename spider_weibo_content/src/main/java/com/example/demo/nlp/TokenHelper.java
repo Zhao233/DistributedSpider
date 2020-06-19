@@ -25,6 +25,7 @@ public class TokenHelper {
 
     public static String accessToken = null;
 
+    //获取百度ai token
     public void getAccessToken(){
         RestTemplate restTemplate = new RestTemplate();
 

@@ -22,10 +22,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Service
 public class SpiderForContent {
     @Autowired
-    ThreadPoolExecutor threadPool;
+    ThreadPoolExecutor threadPool;//线程池
 
     @Autowired
-    LinkedBlockingQueue<WeiBo> queue;
+    LinkedBlockingQueue<WeiBo> queue;//阻塞队列
 
     @Autowired
     TokenHelper tokenHelper;
@@ -50,9 +50,9 @@ public class SpiderForContent {
     }
 
     public void start() throws InterruptedException, IOException {
-        tokenHelper.getAccessToken();
+        tokenHelper.getAccessToken();//获取百度 ai 的token
 
-        //从队列中获取数据进行处理
+        //从队列中获取数据进行处理，张彤
         Thread thread = new Thread(() -> {
             System.out.println("获取队列数据进程已开启");
 
@@ -74,9 +74,9 @@ public class SpiderForContent {
         });
         thread.start();
 
-        //爬虫部分
+        //爬虫部分，徐华磊
         for(; ; ) {
-            int page = zooTool.getPageFromRemote();
+            int page = zooTool.getPageFromRemote();//从zookeeper获取page
 
             if(page == Integer.MIN_VALUE){
                 break;
@@ -108,7 +108,7 @@ public class SpiderForContent {
                         System.out.println("处理完毕！当前page： "+page);
                         System.out.println("response : "+ doc.body().toString());
 
-                        System.exit(0);
+                        System.exit(0);//爬完了，退出
                     }
                 }
             }
@@ -124,7 +124,7 @@ public class SpiderForContent {
 
                 String mid;
                 try {
-                    mid = temp.attr("mid");
+                    mid = temp.attr("mid");//w_id
                 } catch (Exception e) {
                     System.out.println("get mid error! mid = " + temp.attr("mid") + "**** content: " + temp.text());
                     //logger.error("get mid error! mid = "+temp.attr("mid")+"**** content: "+temp.text());
@@ -140,7 +140,7 @@ public class SpiderForContent {
 
                 String time_ = temp.select("p.from").select("a[href]").text().split(" ")[0];
 
-                //时间解析
+                //时间解析, 获取微博的时间
                 if (time_.contains("分钟前") || time_.contains("今天")) {//今天
                     weiBo.setW_timestamp(time_now);
                 } else {
@@ -157,6 +157,7 @@ public class SpiderForContent {
                     calendar.set(Calendar.DAY_OF_MONTH, day);
                 }
 
+                //把时间戳截至到月日
                 Long time = calendar.getTimeInMillis();
                 time /= 100000;
                 time *= 100000;
@@ -174,7 +175,7 @@ public class SpiderForContent {
 
                 try {
 
-                    queue.add(weiBo);
+                    queue.add(weiBo);//把数据放入阻塞队列
 
                 } catch (Exception e) {
                     System.out.println(e);
@@ -184,7 +185,7 @@ public class SpiderForContent {
         }
     }
 
-    //处理获取到的数据
+    //处理获取到的数据，具体线程池处理，张彤
     class ProcessRunnable implements Runnable{
         WeiBo weiBo;
 
@@ -193,6 +194,7 @@ public class SpiderForContent {
         }
 
         public void run() {
+            //数据清洗
             String content = weiBo.getW_content();
             content = content.replaceAll("#|【|】","");
             content = content.replace("收起全文d","");
@@ -203,19 +205,19 @@ public class SpiderForContent {
 
             int score = 0;
 
-            score = new Random().nextInt(70);
-
-            if(score == Integer.MIN_VALUE){
-                score = new Random().nextInt(70);
+            try {
+                score = analyser.analyse(content);//获取褒贬意
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
             weiBo.setScore(score);
 
-            weiBoDao.save(weiBo);
+            weiBoDao.save(weiBo);//保存到数据库
 
             System.out.println("weibo saved : "+ weiBo.toString());
 
-            //kafkaService.sendMessageToKafka();
+            kafkaService.sendMessageToKafka(weiBo.getW_id());//发送kafka
         }
     }
 

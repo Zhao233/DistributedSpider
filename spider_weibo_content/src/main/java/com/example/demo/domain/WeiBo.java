@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+//数据库实体
 @Entity
 @Table(name="WeiBoRecord")
 @Data
